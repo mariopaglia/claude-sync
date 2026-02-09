@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "claude-sync": "./dist/index.js"
+    "claude-sync": "dist/index.js"
   },
   "scripts": {
     "build": "tsup",
