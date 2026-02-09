@@ -1,0 +1,8 @@
+{
+  "bindings": [
+    {
+      "key": "ctrl+enter",
+      "command": "submit"
+    }
+  ]
+}
