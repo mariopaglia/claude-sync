@@ -1,11 +1,11 @@
 {
-  "name": "@mariopaglia/claude-sync",
+  "name": "claudesync",
   "version": "1.0.1",
   "description": "Sync your Claude Code configuration across machines using GitHub Gists",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "claude-sync": "dist/index.js"
+    "claudesync": "dist/index.js"
   },
   "scripts": {
     "build": "tsup",

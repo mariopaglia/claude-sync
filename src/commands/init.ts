@@ -12,8 +12,8 @@ export async function initCommand(): Promise<void> {
   if (existing?.gistId) {
     log.warn('Already initialized.');
     log.dim(`  Gist: ${existing.gistUrl ?? existing.gistId}`);
-    log.dim('  Use `claude-sync push` or `claude-sync pull` to sync.');
-    log.dim('  Use `claude-sync unlink` to reset.');
+    log.dim('  Use `claudesync push` or `claudesync pull` to sync.');
+    log.dim('  Use `claudesync unlink` to reset.');
     return;
   }
 
@@ -69,6 +69,6 @@ export async function initCommand(): Promise<void> {
   // 8. Success
   console.log();
   log.success(`Initialized! Gist: ${gist.html_url}`);
-  log.dim('  Run `claude-sync push` to upload changes.');
-  log.dim('  Run `claude-sync pull` on another machine to sync.');
+  log.dim('  Run `claudesync push` to upload changes.');
+  log.dim('  Run `claudesync pull` on another machine to sync.');
 }

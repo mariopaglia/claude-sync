@@ -21,5 +21,5 @@ export async function unlinkCommand(): Promise<void> {
   }
 
   await removeConfig();
-  log.success('Unlinked. Run `claude-sync init` or `claude-sync link` to reconnect.');
+  log.success('Unlinked. Run `claudesync init` or `claudesync link` to reconnect.');
 }

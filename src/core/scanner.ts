@@ -97,7 +97,7 @@ export function gistFilesToFileMap(
   const fileMap = new Map<string, string>();
 
   for (const [filename, file] of Object.entries(gistFiles)) {
-    if (filename === '.claude-sync-meta.json') continue;
+    if (filename === '.claudesync-meta.json') continue;
     const relativePath = fromGistFilename(filename);
     fileMap.set(relativePath, file.content);
   }

@@ -68,14 +68,14 @@ describe('scanner', () => {
       const gistFiles = {
         'settings.json': { content: '{"key": "value"}' },
         'agents__test__AGENT.md': { content: '# Agent' },
-        '.claude-sync-meta.json': { content: '{}' },
+        '.claudesync-meta.json': { content: '{}' },
       };
 
       const result = gistFilesToFileMap(gistFiles);
 
       expect(result.get('settings.json')).toBe('{"key": "value"}');
       expect(result.get('agents/test/AGENT.md')).toBe('# Agent');
-      expect(result.has('.claude-sync-meta.json')).toBe(false);
+      expect(result.has('.claudesync-meta.json')).toBe(false);
     });
   });
 

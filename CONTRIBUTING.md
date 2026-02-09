@@ -1,4 +1,4 @@
-# Contributing to claude-sync
+# Contributing to claudesync
 
 Thanks for your interest in contributing!
 
@@ -6,8 +6,8 @@ Thanks for your interest in contributing!
 
 ```bash
 # Clone the repo
-git clone https://github.com/mariopaglia/claude-sync.git
-cd claude-sync
+git clone https://github.com/mariopaglia/claudesync.git
+cd claudesync
 
 # Install dependencies
 npm install
@@ -23,7 +23,7 @@ npm run test:watch
 
 # Link locally to test the CLI
 npm link
-claude-sync --help
+claudesync --help
 ```
 
 ## Project structure

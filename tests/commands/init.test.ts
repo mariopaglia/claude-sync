@@ -9,7 +9,7 @@ describe('init command', () => {
 
   beforeEach(async () => {
     // Create temp directory structure
-    tempDir = await mkdtemp(join(tmpdir(), 'claude-sync-test-'));
+    tempDir = await mkdtemp(join(tmpdir(), 'claudesync-test-'));
     originalHome = process.env.HOME;
     process.env.HOME = tempDir;
 
@@ -64,11 +64,11 @@ describe('init command', () => {
     // Note: Full integration test would require more mocking
     // This test documents the expected behavior
 
-    const configPath = join(tempDir, '.claude-sync', 'config.json');
+    const configPath = join(tempDir, '.claudesync', 'config.json');
 
     // Simulate what should happen:
     // 1. getToken() saves token
-    await mkdir(join(tempDir, '.claude-sync'), { recursive: true });
+    await mkdir(join(tempDir, '.claudesync'), { recursive: true });
     await writeFile(configPath, JSON.stringify({ token: 'test-token-123' }));
 
     // 2. init should preserve it when adding gistId
