@@ -4,11 +4,11 @@ import { join } from 'node:path';
 export const VERSION = '1.0.1';
 
 export const CLAUDE_DIR = join(homedir(), '.claude');
-export const SYNC_DIR = join(homedir(), '.claudesync');
+export const SYNC_DIR = join(homedir(), '.claude-config-sync');
 export const CONFIG_PATH = join(SYNC_DIR, 'config.json');
 export const BACKUPS_DIR = join(SYNC_DIR, 'backups');
 
-export const META_FILENAME = '.claudesync-meta.json';
+export const META_FILENAME = '.claude-config-sync-meta.json';
 
 export const GIST_API_BASE = 'https://api.github.com';
 

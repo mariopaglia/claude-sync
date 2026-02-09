@@ -59,7 +59,7 @@ export async function createGist(
     method: 'POST',
     headers: authHeaders(token),
     body: JSON.stringify({
-      description: 'Claude Code configuration (managed by claudesync)',
+      description: 'Claude Code configuration (managed by claude-config-sync)',
       public: options.public,
       files: gistFiles,
     }),

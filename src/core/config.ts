@@ -42,7 +42,7 @@ export async function requireConfig(): Promise<SyncConfig> {
   const config = await loadConfig();
   if (!config?.gistId) {
     throw new Error(
-      'Not initialized. Run `claudesync init` first, or `claudesync link <gist-id>` to link an existing gist.',
+      'Not initialized. Run `claude-config-sync init` first, or `claude-config-sync link <gist-id>` to link an existing gist.',
     );
   }
   return config;

@@ -5,7 +5,7 @@ import { log } from './utils/logger.js';
 const program = new Command();
 
 program
-  .name('claudesync')
+  .name('claude-config-sync')
   .description('Sync your Claude Code configuration across machines using GitHub Gists')
   .version(VERSION);
 

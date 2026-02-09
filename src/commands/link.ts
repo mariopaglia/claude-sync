@@ -24,5 +24,5 @@ export async function linkCommand(urlOrId: string): Promise<void> {
   });
 
   log.success(`Linked to gist: ${gist.html_url}`);
-  log.dim('  Run `claudesync pull` to download your config.');
+  log.dim('  Run `claude-config-sync pull` to download your config.');
 }

@@ -64,6 +64,6 @@ export async function shareCommand(): Promise<void> {
   console.log();
   log.success('Shared! Anyone can import with:');
   console.log();
-  console.log(`  claudesync import ${gist.html_url}`);
+  console.log(`  claude-config-sync import ${gist.html_url}`);
   console.log();
 }
