@@ -1,5 +1,5 @@
 {
-  "name": "claude-sync",
+  "name": "@mariopaglia/claude-sync",
   "version": "1.0.1",
   "description": "Sync your Claude Code configuration across machines using GitHub Gists",
   "type": "module",
@@ -42,11 +42,11 @@
     "dist"
   ],
   "dependencies": {
+    "@inquirer/prompts": "^7.0.0",
     "chalk": "^5.4.0",
     "commander": "^13.0.0",
-    "@inquirer/prompts": "^7.0.0",
-    "ora": "^8.0.0",
-    "diff": "^7.0.0"
+    "diff": "^7.0.0",
+    "ora": "^8.0.0"
   },
   "devDependencies": {
     "@types/diff": "^7.0.0",
