@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2026-02-09
+
+### Changed
+- Improved README with professional badges (npm downloads, CI status, Node version)
+- Changed all command examples to use `ccs` alias for better UX
+- Added Contributing section with fork/PR workflow
+- Added Features section highlighting key capabilities
+- Improved overall documentation structure and readability
+
 ## [1.0.2] - 2026-02-09
 
 ### Changed

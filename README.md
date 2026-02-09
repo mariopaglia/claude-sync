@@ -1,117 +1,156 @@
 # claude-config-sync
 
+<div align="center">
+
 Sync your [Claude Code](https://claude.com/claude-code) configuration across machines using GitHub Gists.
 
+[![npm version](https://img.shields.io/npm/v/claude-config-sync?color=blue)](https://www.npmjs.com/package/claude-config-sync)
+[![npm downloads](https://img.shields.io/npm/dm/claude-config-sync)](https://www.npmjs.com/package/claude-config-sync)
 [![CI](https://github.com/mariopaglia/claude-config-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/mariopaglia/claude-config-sync/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/claude-config-sync.svg)](https://www.npmjs.com/package/claude-config-sync)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/node/v/claude-config-sync)](https://nodejs.org)
 
-## Why?
+</div>
 
-Claude Code stores all user configurations in `~/.claude/` (settings, keybindings, agents, skills, rules, CLAUDE.md). There is no native sync between machines. **claude-config-sync** fills that gap with a polished CLI tool that uses GitHub Gists as backend — the same approach VS Code uses for profile export/import.
+---
 
-## What gets synced
+## ✨ Features
 
-| Synced | Never synced |
-|--------|-------------|
-| `settings.json` | `~/.claude.json` (OAuth tokens) |
-| `keybindings.json` | `*.local.json`, `*.local.md` |
-| `CLAUDE.md` | `agent-memory/` |
-| `agents/` (AGENT.md + supporting files) | `ide/` |
-| `skills/` (SKILL.md + supporting files) | `statsig/`, `todo/`, `tmp/` |
-| `rules/*.md` | `*.bak` files |
+- 🔄 **Sync config** across machines using GitHub Gists
+- 🔐 **Secure** — never syncs OAuth tokens or secrets
+- 💾 **Automatic backups** before overwriting files
+- 🎯 **Selective import** — choose what to import from shared configs
+- 🚀 **Fast** — minimal dependencies, small bundle size
+- 📦 **Zero setup** — works out of the box with GitHub CLI
 
-## Install
+## 📦 Installation
 
 ```bash
 npm install -g claude-config-sync
 ```
 
-Requires Node.js 18+.
+**Requirements:** Node.js 18+
 
-> **Tip:** You can use the short alias `ccs` instead of `claude-config-sync` for all commands.
-
-## Quick start
+## 🚀 Quick Start
 
 ```bash
 # First machine — initialize
-claude-config-sync init
+ccs init
 
-# Push your config
-claude-config-sync push
+# Push your config to GitHub Gist
+ccs push
 
-# Second machine — link to existing gist
-claude-config-sync link <gist-id>
-claude-config-sync pull
+# Second machine — sync from gist
+ccs link <gist-id>
+ccs pull
 ```
 
-## Authentication
+> **💡 Tip:** `ccs` is a short alias for `claude-config-sync`
 
-claude-config-sync looks for a GitHub token in this order:
+## 📚 Usage
 
-1. `gh auth token` (GitHub CLI)
-2. `GITHUB_TOKEN` environment variable
-3. Saved token in `~/.claude-config-sync/config.json`
-4. Interactive prompt (saved for future use)
-
-The token only needs the `gist` scope. [Create one here](https://github.com/settings/tokens/new?scopes=gist).
-
-## Commands
-
-### `claude-config-sync init`
-
-First-time setup. Scans `~/.claude/`, creates a secret gist, and saves the link locally.
-
-### `claude-config-sync push`
-
-Upload local config changes to the remote gist. Shows a diff summary before pushing.
+### Initialize sync
 
 ```bash
-claude-config-sync push          # interactive confirmation
-claude-config-sync push --force  # skip confirmation
+ccs init
 ```
 
-### `claude-config-sync pull`
+Creates a secret gist and syncs your current config.
 
-Download remote config to local machine. Interactive conflict resolution for modified files.
+### Push changes
 
 ```bash
-claude-config-sync pull          # interactive per-file decisions
-claude-config-sync pull --force  # accept all remote changes (creates backups)
+ccs push          # with confirmation
+ccs push --force  # skip confirmation
 ```
 
-### `claude-config-sync status`
+Upload local changes to your gist.
 
-Show diff between local and remote. No changes are made.
-
-### `claude-config-sync share`
-
-Create a **public** gist to share your config with others. You choose which files to include.
-
-### `claude-config-sync import <url-or-id>`
-
-Import config from a shared gist. Selective — you pick which items to import.
+### Pull changes
 
 ```bash
-claude-config-sync import https://gist.github.com/user/abc123
-claude-config-sync import abc123def456
+ccs pull          # interactive conflict resolution
+ccs pull --force  # accept all remote changes
 ```
 
-### `claude-config-sync link <gist-id>`
+Download changes from your gist.
 
-Link to an existing gist on a new machine. Use this instead of `init` when you already have a sync gist.
+### Check status
 
-### `claude-config-sync unlink`
+```bash
+ccs status
+```
 
-Remove the local link to the gist. The gist itself is NOT deleted.
+See what's different between local and remote.
 
-## Backups
+### Share your config
 
-Before overwriting any local file during `pull` or `import`, claude-config-sync creates a backup in `~/.claude-config-sync/backups/`. The last 5 backups per file are kept.
+```bash
+ccs share
+```
 
-## Storage format
+Create a public gist to share with others. You choose which files to include.
 
-Gists don't support directories, so paths are encoded with `__` separator:
+### Import from others
+
+```bash
+ccs import https://gist.github.com/user/abc123
+ccs import abc123def456
+```
+
+Selectively import config from a shared gist.
+
+### Link existing gist
+
+```bash
+ccs link <gist-id>
+```
+
+Connect to an existing gist on a new machine.
+
+### Unlink
+
+```bash
+ccs unlink
+```
+
+Remove local connection (doesn't delete the gist).
+
+## 🔐 Authentication
+
+The tool looks for a GitHub token in this order:
+
+1. **GitHub CLI** — `gh auth token` (automatic if installed)
+2. **Environment** — `GITHUB_TOKEN` variable
+3. **Saved token** — `~/.claude-config-sync/config.json`
+4. **Interactive prompt** — asks once, saves for future use
+
+**Create a token:** [github.com/settings/tokens/new?scopes=gist](https://github.com/settings/tokens/new?scopes=gist) (needs `gist` scope only)
+
+## 📁 What Gets Synced
+
+| ✅ Synced | ❌ Never Synced |
+|-----------|-----------------|
+| `settings.json` | `~/.claude.json` (OAuth tokens) |
+| `keybindings.json` | `*.local.json`, `*.local.md` |
+| `CLAUDE.md` | `agent-memory/` |
+| `agents/` (all files) | `ide/` |
+| `skills/` (all files) | `statsig/`, `todo/`, `tmp/` |
+| `rules/*.md` | `*.bak` files |
+
+## 💾 Backups
+
+Before overwriting any file during `pull` or `import`, automatic backups are created in:
+
+```
+~/.claude-config-sync/backups/
+```
+
+The last 5 backups per file are kept automatically.
+
+## 🗂️ Storage Format
+
+Gists don't support directories, so paths are encoded with `__`:
 
 ```
 settings.json                         ← ~/.claude/settings.json
@@ -119,6 +158,57 @@ agents__code-reviewer__AGENT.md       ← ~/.claude/agents/code-reviewer/AGENT.m
 skills__commit__SKILL.md              ← ~/.claude/skills/commit/SKILL.md
 ```
 
-## License
+## 🤝 Contributing
 
-MIT
+Contributions are welcome! Here's how:
+
+1. **Fork** the repository: [github.com/mariopaglia/claude-config-sync/fork](https://github.com/mariopaglia/claude-config-sync/fork)
+2. **Clone** your fork: `git clone https://github.com/YOUR-USERNAME/claude-config-sync.git`
+3. **Create a branch**: `git checkout -b feature/my-feature`
+4. **Make changes** and add tests
+5. **Run tests**: `npm test`
+6. **Commit**: `git commit -m "feat: add amazing feature"`
+7. **Push**: `git push origin feature/my-feature`
+8. **Open a PR**: [github.com/mariopaglia/claude-config-sync/compare](https://github.com/mariopaglia/claude-config-sync/compare)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
+
+### Development
+
+```bash
+# Clone and install
+git clone https://github.com/mariopaglia/claude-config-sync.git
+cd claude-config-sync
+npm install
+
+# Build
+npm run build
+
+# Run tests
+npm test
+
+# Link locally for testing
+npm link
+ccs --version
+```
+
+## 📄 License
+
+MIT © [Mario Paglia](https://github.com/mariopaglia)
+
+## 🔗 Links
+
+- [npm package](https://www.npmjs.com/package/claude-config-sync)
+- [GitHub repository](https://github.com/mariopaglia/claude-config-sync)
+- [Report issues](https://github.com/mariopaglia/claude-config-sync/issues)
+- [Claude Code](https://claude.com/claude-code)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Claude Code community**
+
+[⭐ Star on GitHub](https://github.com/mariopaglia/claude-config-sync) • [📦 View on npm](https://www.npmjs.com/package/claude-config-sync)
+
+</div>
