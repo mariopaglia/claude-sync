@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2026-02-09
+
+### Changed
+- Renamed package to `claude-config-sync` (from `claudesync`)
+- Added `ccs` as a short command alias
+- Updated all documentation and code references
+- Changed config directory to `~/.claude-config-sync/`
+
 ## [1.0.1] - 2026-02-09
 
 ### Fixed

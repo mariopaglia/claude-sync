@@ -1,7 +1,7 @@
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-export const VERSION = '1.0.1';
+export const VERSION = '1.0.2';
 
 export const CLAUDE_DIR = join(homedir(), '.claude');
 export const SYNC_DIR = join(homedir(), '.claude-config-sync');
