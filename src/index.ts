@@ -1,13 +1,16 @@
 import { Command } from 'commander';
-import { VERSION } from './utils/constants.js';
+import { createRequire } from 'node:module';
 import { log } from './utils/logger.js';
+
+const require = createRequire(import.meta.url);
+const { version } = require('../package.json');
 
 const program = new Command();
 
 program
   .name('claude-config-sync')
   .description('Sync your Claude Code configuration across machines using GitHub Gists')
-  .version(VERSION);
+  .version(version);
 
 program
   .command('init')

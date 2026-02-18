@@ -1,5 +1,9 @@
-import { GIST_API_BASE, META_FILENAME, VERSION } from '../utils/constants.js';
+import { GIST_API_BASE, META_FILENAME } from '../utils/constants.js';
+import { createRequire } from 'node:module';
 import { hostname } from 'node:os';
+
+const require = createRequire(import.meta.url);
+const { version } = require('../../package.json');
 
 export interface GistFile {
   filename: string;
@@ -37,7 +41,7 @@ function buildMetaFile(): { content: string } {
         version: '1.0.0',
         lastPush: new Date().toISOString(),
         lastPushMachine: hostname(),
-        claudeSyncVersion: VERSION,
+        claudeSyncVersion: version,
       },
       null,
       2,
