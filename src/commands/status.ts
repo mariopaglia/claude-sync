@@ -19,7 +19,7 @@ export async function statusCommand(): Promise<void> {
   const remoteFiles = gistFilesToFileMap(gist.files);
 
   // 3. Scan local files
-  const localFiles = await withSpinner('Scanning local files...', () => scanClaudeDir());
+  const { files: localFiles } = await withSpinner('Scanning local files...', () => scanClaudeDir());
 
   // 4. Compute diff (local vs remote)
   const diff = computeDiff(localFiles, remoteFiles);

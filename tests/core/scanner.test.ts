@@ -5,6 +5,7 @@ import {
   fileMapToGistFiles,
   gistFilesToFileMap,
   categorizeFiles,
+  redactSensitiveData,
 } from '../../src/core/scanner.js';
 
 describe('scanner', () => {
@@ -97,6 +98,58 @@ describe('scanner', () => {
       expect(categories.agents).toEqual(['agents/test/AGENT.md']);
       expect(categories.skills).toEqual(['skills/commit/SKILL.md']);
       expect(categories.rules).toEqual(['rules/security.md']);
+    });
+  });
+
+  describe('redactSensitiveData', () => {
+    it('does not redact non-settings.json files', () => {
+      const content = '{"key": "value"}';
+      const result = redactSensitiveData(content, 'CLAUDE.md');
+      expect(result.redacted).toBe(content);
+      expect(result.hadSensitiveData).toBe(false);
+    });
+
+    it('redacts ANTHROPIC_AUTH_TOKEN', () => {
+      const content = JSON.stringify({
+        ANTHROPIC_AUTH_TOKEN: 'sk-ant-api03-test123',
+        ANTHROPIC_MODEL: 'claude-sonnet-4-20250514',
+      });
+      const result = redactSensitiveData(content, 'settings.json');
+      expect(result.redacted).toContain('<REDACTED>');
+      expect(result.hadSensitiveData).toBe(true);
+      expect(result.redacted).toContain('claude-sonnet-4-20250514'); // Model should remain
+    });
+
+    it('redacts API_KEY patterns', () => {
+      const content = JSON.stringify({
+        API_KEY: 'my-secret-key-12345',
+        SOME_SETTING: 'visible-value',
+      });
+      const result = redactSensitiveData(content, 'settings.json');
+      expect(result.redacted).toContain('<REDACTED>');
+      expect(result.redacted).toContain('visible-value');
+      expect(result.hadSensitiveData).toBe(true);
+    });
+
+    it('redacts tokens with common prefixes', () => {
+      const content = JSON.stringify({
+        token1: 'sk-ant-anthropic-secret123456789',
+        token2: 'openai-sk-test45678901234567890',
+        token3: 'minimax-api-key789012345678901',
+      });
+      const result = redactSensitiveData(content, 'settings.json');
+      expect(result.hadSensitiveData).toBe(true);
+    });
+
+    it('returns false for files without sensitive data', () => {
+      const content = JSON.stringify({
+        ANTHROPIC_MODEL: 'claude-sonnet-4-20250514',
+        ANTHROPIC_DEFAULT_OPUS_MODEL: 'claude-opus-4-20250514',
+        ANTHROPIC_SMALL_FAST_MODEL: 'claude-haiku-3-20250514',
+      });
+      const result = redactSensitiveData(content, 'settings.json');
+      expect(result.hadSensitiveData).toBe(false);
+      expect(result.redacted).toBe(content);
     });
   });
 });

@@ -24,7 +24,7 @@ export async function pullCommand(options: { force?: boolean }): Promise<void> {
   const remoteFiles = gistFilesToFileMap(gist.files);
 
   // 3. Scan local files
-  const localFiles = await withSpinner('Scanning local files...', () => scanClaudeDir());
+  const { files: localFiles } = await withSpinner('Scanning local files...', () => scanClaudeDir());
 
   // 4. Compute diff (remote vs local — remote is "source", local is "target")
   const diff = computeDiff(remoteFiles, localFiles);

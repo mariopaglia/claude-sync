@@ -5,6 +5,7 @@ import { createGist } from '../core/gist.js';
 import { confirmAction } from '../ui/prompts.js';
 import { withSpinner } from '../ui/spinner.js';
 import { log } from '../utils/logger.js';
+import { SENSITIVE_WARNING } from '../utils/constants.js';
 
 export async function initCommand(): Promise<void> {
   // 1. Check if already initialized
@@ -26,7 +27,14 @@ export async function initCommand(): Promise<void> {
   const currentConfig = await loadConfig();
 
   // 3. Scan local files
-  const files = await withSpinner('Scanning ~/.claude/ ...', () => scanClaudeDir());
+  const { files, hasSensitiveData } = await withSpinner('Scanning ~/.claude/ ...', () => scanClaudeDir());
+
+  // Warn if sensitive data was detected
+  if (hasSensitiveData) {
+    console.log();
+    log.warn(SENSITIVE_WARNING);
+    console.log();
+  }
 
   if (files.size === 0) {
     log.warn('No syncable files found in ~/.claude/');

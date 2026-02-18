@@ -1,16 +1,34 @@
 import { getToken } from '../core/auth.js';
-import { scanClaudeDir, fileMapToGistFiles, categorizeFiles } from '../core/scanner.js';
+import { scanClaudeDir, fileMapToGistFiles } from '../core/scanner.js';
 import { createGist } from '../core/gist.js';
 import { confirmAction, selectMultiple } from '../ui/prompts.js';
 import { withSpinner } from '../ui/spinner.js';
 import { log } from '../utils/logger.js';
+import { SENSITIVE_WARNING } from '../utils/constants.js';
 
 export async function shareCommand(): Promise<void> {
   // 1. Authenticate
   const token = await getToken();
 
   // 2. Scan local files
-  const files = await withSpinner('Scanning local files...', () => scanClaudeDir());
+  const { files, hasSensitiveData } = await withSpinner('Scanning local files...', () => scanClaudeDir());
+
+  // Critical warning for public gist
+  if (hasSensitiveData) {
+    console.log();
+    log.error('CRITICAL: Sensitive data detected in your files!');
+    console.log();
+    log.error('Your files contain API keys or tokens that will be publicly exposed.');
+    console.log();
+    log.info(SENSITIVE_WARNING);
+    console.log();
+
+    const proceed = await confirmAction('Continue anyway? (Not recommended!)');
+    if (!proceed) {
+      log.dim('Cancelled.');
+      return;
+    }
+  }
 
   if (files.size === 0) {
     log.warn('No syncable files found in ~/.claude/');
@@ -19,7 +37,6 @@ export async function shareCommand(): Promise<void> {
 
   // 3. Let user select files to share
   const allPaths = Array.from(files.keys());
-  const categories = categorizeFiles(files);
 
   const choices = allPaths.map((path) => ({
     name: path,

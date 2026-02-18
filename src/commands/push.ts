@@ -1,11 +1,12 @@
 import { requireConfig, saveConfig } from '../core/config.js';
 import { getToken } from '../core/auth.js';
-import { scanClaudeDir, fileMapToGistFiles, gistFilesToFileMap, toGistFilename } from '../core/scanner.js';
+import { scanClaudeDir, gistFilesToFileMap, toGistFilename } from '../core/scanner.js';
 import { getGist, updateGist } from '../core/gist.js';
 import { computeDiff, hasDifferences } from '../core/diff.js';
 import { confirmAction } from '../ui/prompts.js';
 import { withSpinner } from '../ui/spinner.js';
 import { log } from '../utils/logger.js';
+import { SENSITIVE_WARNING } from '../utils/constants.js';
 
 export async function pushCommand(options: { force?: boolean }): Promise<void> {
   // 1. Load config and token
@@ -13,7 +14,14 @@ export async function pushCommand(options: { force?: boolean }): Promise<void> {
   const token = await getToken();
 
   // 2. Scan local files
-  const localFiles = await withSpinner('Scanning local files...', () => scanClaudeDir());
+  const { files: localFiles, hasSensitiveData } = await withSpinner('Scanning local files...', () => scanClaudeDir());
+
+  // Warn if sensitive data was detected
+  if (hasSensitiveData) {
+    console.log();
+    log.warn(SENSITIVE_WARNING);
+    console.log();
+  }
 
   // 3. Fetch remote gist
   const gist = await withSpinner('Fetching remote gist...', () =>
