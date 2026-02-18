@@ -1,6 +1,6 @@
 {
   "name": "claude-config-sync",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Sync your Claude Code configuration across machines using GitHub Gists",
   "type": "module",
   "main": "./dist/index.js",

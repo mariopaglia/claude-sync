@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-02-17
+
+### Added
+- Added sensitive data redaction in scanner to prevent leaking tokens/credentials
+
+### Changed
+- Updated ESLint configuration
+
 ## [1.0.3] - 2026-02-09
 
 ### Changed
